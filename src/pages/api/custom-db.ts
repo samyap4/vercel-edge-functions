@@ -6,10 +6,10 @@ export const config = {
 
 export default async (req: NextRequest) => {
     try {
-        console.log(req);
+        //console.log(req);
         const json = await req.json();
         const { email, password } = json;
-        if (email === 'sam@custmodb.com' && password === 'Auth0Dem0') {
+        if (email === 'sam@customdb.com' && password === 'Auth0Dem0') {
             return NextResponse.json({
                 user_id: '4534854850934805',
                 nickname: 'Sam Yapkowitz',
