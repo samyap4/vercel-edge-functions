@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { kv } from '@vercel/kv';
 
 export const config = {
   runtime: 'edge',
@@ -6,10 +7,11 @@ export const config = {
 
 export default async (req: NextRequest) => {
     try {
-        //console.log(req);
         const json = await req.json();
         const { email, password } = json;
-        if (email === 'sam@customdb.com' && password === 'Auth0Dem0') {
+        const creds = await kv.hgetall('user:me');
+        console.log('creds', creds);
+        if (email === creds?.email && password === creds?.password) {
             return NextResponse.json({
                 user_id: '4534854850934805',
                 nickname: 'Sam Yapkowitz',
