@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
-  runtime: 'edge',
+  runtime: 'experimental-edge',
+  location: 'iad1'
 };
 
 export default (req: NextRequest) => {

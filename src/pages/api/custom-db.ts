@@ -5,6 +5,7 @@ import { createKysely } from '@vercel/postgres-kysely';
 
 export const config = {
   runtime: 'experimental-edge',
+  location: 'iad1'
 };
 
 interface UsersTable {
@@ -29,9 +30,10 @@ export default async (req: NextRequest) => {
           .where('users.email', '=', email)
           .executeTakeFirst();
 
-        // const creds = await kv.hgetall('user:me');
-        console.log(user);
-        if (email === user?.email && password === user?.password) {
+        const creds = await kv.hgetall('user:me');
+        console.log('user', user);
+
+        if (email === creds?.email && password === creds?.password) {
             return NextResponse.json({
                 user_id: '4534854850934805',
                 nickname: 'Sam Yapkowitz',
