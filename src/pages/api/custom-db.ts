@@ -21,24 +21,28 @@ interface Database {
 
 export default async (req: NextRequest) => {
     try {
-        const json = await req.json();
-        const { email, password } = json;
+        const { email, password, api_key } = await req.json();
+        const cached_key = await kv.hgetall('api_key');
+
+        if (cached_key !== api_key) {
+            return new NextResponse(null, { status: 400, statusText: 'API Key is invalid' });
+        }
 
         const db = createKysely<Database>();
         const user = await db
-          .selectFrom('users')
-          .where('users.email', '=', email)
-          .executeTakeFirst();
-
-        const creds = await kv.hgetall('user:me');
-        console.log('user', user);
-
-        if (email === creds?.email && password === creds?.password) {
+                    .selectFrom('users')
+                    .selectAll()
+                    .where('users.email', '=', email)
+                    .executeTakeFirst();
+                    
+        if (email === user?.email && password === user?.password) {
             return NextResponse.json({
                 user_id: '4534854850934805',
                 nickname: 'Sam Yapkowitz',
-                email: 'sam@customdb.com'
-              });
+                email: user?.email
+            });
+        } else {
+            return new NextResponse(null, { status: 400, statusText: 'User not found' });
         }
     } catch (e) {
         console.log(e);
