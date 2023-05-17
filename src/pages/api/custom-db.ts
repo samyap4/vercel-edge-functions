@@ -22,7 +22,7 @@ interface Database {
 export default async (req: NextRequest) => {
     try {
         const { email, password, api_key } = await req.json();
-        const cached_key = await kv.hgetall('api_key');
+        const cached_key = await kv.get('api_key');
 
         if (cached_key !== api_key) {
             return new NextResponse(null, { status: 400, statusText: 'API Key is invalid' });
@@ -34,7 +34,7 @@ export default async (req: NextRequest) => {
                     .selectAll()
                     .where('users.email', '=', email)
                     .executeTakeFirst();
-                    
+
         if (email === user?.email && password === user?.password) {
             return NextResponse.json({
                 user_id: '4534854850934805',
