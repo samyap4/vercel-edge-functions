@@ -6,6 +6,7 @@ export const config = {
 };
 
 export default (req: NextRequest) => {
+  console.log('Hello Baselime')
   return NextResponse.json({
     name: `Hello, from ${req.url} I'm now an Edge Function!`,
   });
