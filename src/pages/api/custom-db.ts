@@ -21,7 +21,7 @@ interface Database {
 
 export default async (req: NextRequest) => {
     try {
-        console.log(req.body);
+        console.log(req.json());
         const { email, password, api_key } = await req.json();
         const cached_key = await kv.get('api_key');
 
