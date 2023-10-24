@@ -28,22 +28,28 @@ export default async (req: NextRequest) => {
             return new NextResponse(null, { status: 400, statusText: 'API Key is invalid' });
         }
 
-        const db = createKysely<Database>();
-        const user = await db
-                    .selectFrom('users')
-                    .selectAll()
-                    .where('users.email', '=', email)
-                    .executeTakeFirst();
+        // const db = createKysely<Database>();
+        // const user = await db
+        //             .selectFrom('users')
+        //             .selectAll()
+        //             .where('users.email', '=', email)
+        //             .executeTakeFirst();
 
-        if (email === user?.email && password === user?.password) {
-            return NextResponse.json({
-                user_id: '4534854850934805',
-                nickname: 'Sam Yapkowitz',
-                email: user?.email
-            });
-        } else {
-            return new NextResponse(null, { status: 400, statusText: 'User not found' });
-        }
+        // if (email === user?.email && password === user?.password) {
+        //     return NextResponse.json({
+        //         user_id: '4534854850934805',
+        //         nickname: 'Sam Yapkowitz',
+        //         email: user?.email
+        //     });
+        // } else {
+        //     return new NextResponse(null, { status: 400, statusText: 'User not found' });
+        // }
+
+        return NextResponse.json({
+                    user_id: '4534854850934805',
+                    nickname: 'Sam Yapkowitz',
+                    email: 'sam@customdb.com'
+        });
     } catch (e) {
         console.log(e);
         return new NextResponse(null, { status: 400, statusText: e as string });
