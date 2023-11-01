@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { OpenFgaClient, CredentialsMethod } from '@openfga/sdk';
 
 export const config = {
@@ -6,8 +7,8 @@ export const config = {
   location: 'iad1'
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { user, relation, object } = req.body;
+export default async (req: NextRequest) => {
+    const { user, relation, object } = await req.json();
     const fgaClient = new OpenFgaClient({
         apiHost: 'api.us1.fga.dev', 
         storeId: '01GJ3SQKTDV7AXQWMPYYZGEF0B',
@@ -26,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         relation: relation,
         object: object,
     });
-    return res.status(200).json({
-        result: result
+    return NextResponse.json({
+       result: result
     });
 };
