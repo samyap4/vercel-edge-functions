@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { OpenFgaClient, CredentialsMethod } from '@openfga/sdk';
 
-// export const config = {
-//   runtime: 'experimental-edge',
-//   location: 'iad1'
-// };
+export const config = {
+  runtime: 'experimental-edge',
+  location: 'iad1'
+};
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { user, relation, object } = req.body;
