@@ -6,12 +6,13 @@ import { checkIsJwtExpired, renewFGAJWT } from '@/utils/token_utils';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { user, relation, object } = req.body;
     let api_token = await kv.get('fga_token') as string;
+    console.log(api_token);
 
-    if (checkIsJwtExpired(api_token)) {
+    if (!api_token || checkIsJwtExpired(api_token)) {
         api_token = renewFGAJWT();
         await kv.set('fga_token', api_token);
     }
-    
+
     const fgaClient = new OpenFgaClient({
         apiHost: 'api.us1.fga.dev', 
         storeId: '01GJ3SQKTDV7AXQWMPYYZGEF0B',
