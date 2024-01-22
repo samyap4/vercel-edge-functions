@@ -22,7 +22,7 @@ export function renewFGAJWT(): string {
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            return data.access_token as string;
+            return data.access_token.toString();
         })
     .catch((error) => {
             console.error(error);
