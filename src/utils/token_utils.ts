@@ -1,7 +1,7 @@
-import { jwtDecode } from "jwt-decode";
+import * as jose from 'jose'
 
 export function checkIsJwtExpired(jwt: string) {
-    const decoded = jwtDecode(jwt);
+    const decoded = jose.decodeJwt(jwt);
     if (decoded?.exp) {
         return decoded.exp < Date.now();
     }
