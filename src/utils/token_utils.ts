@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import "core-js/stable/atob";
 
 export function checkIsJwtExpired(jwt: string) {
     const decoded = jwtDecode(jwt);
