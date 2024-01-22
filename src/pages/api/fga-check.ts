@@ -5,7 +5,6 @@ import { checkIsJwtExpired, renewFGAJWT } from '@/utils/token_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { user, relation, object } = req.body;
-    console.log('hello');
     let cached_token = await kv.get('fga_token');
     console.log('cached_token', cached_token);
     let api_token = cached_token?.toString();
