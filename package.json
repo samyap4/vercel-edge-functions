@@ -17,6 +17,7 @@
     "@vercel/kv": "^0.2.1",
     "@vercel/postgres": "^0.3.0",
     "@vercel/postgres-kysely": "^0.3.0",
+    "corejs": "^1.0.0",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
     "jwt-decode": "^4.0.0",
