@@ -10,11 +10,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log('cached_token', cached_token);
     let api_token = cached_token?.toString();
 
-    // if (!api_token || checkIsJwtExpired(api_token)) {
-    //     console.log('renewing tokens');
-    //     api_token = renewFGAJWT();
-    //     await kv.set('fga_token', api_token);
-    // }
+    if (!api_token || checkIsJwtExpired(api_token)) {
+        console.log('renewing tokens');
+        api_token = renewFGAJWT();
+        await kv.set('fga_token', api_token);
+    }
 
     const fgaClient = new OpenFgaClient({
         apiHost: 'api.us1.fga.dev', 

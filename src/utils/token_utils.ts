@@ -3,7 +3,7 @@ import * as jose from 'jose'
 export function checkIsJwtExpired(jwt: string) {
     const decoded = jose.decodeJwt(jwt);
     if (decoded?.exp) {
-        return decoded.exp < Date.now();
+        return decoded.exp < (Date.now() / 1000);
     }
 }
 
@@ -17,7 +17,8 @@ export function renewFGAJWT(): string {
                 client_id: process.env.FGA_CLIENT_ID, 
                 client_secret: process.env.FGA_CLIENT_SECRET, 
                 audience: 'https://api.us1.fga.dev/', 
-                grant_type: 'client_credentials' }),
+                grant_type: 'client_credentials' 
+            }),
         })
         .then((response) => response.json())
         .then((data) => {
