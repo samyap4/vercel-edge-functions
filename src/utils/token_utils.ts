@@ -29,8 +29,13 @@ export async function renewFGAJWT() {
 }
 
 export async function verifyJWT(jwt: string) {
-    // let cached_jwks = await kv.get('jwks');
-    // console.log('cached jwks', cached_jwks);
+    let cached_jwks = await kv.get('jwks');
+    console.log('cached jwks', cached_jwks);
+    if (cached_jwks) {
+        let formattedKeys = JSON.parse(JSON.stringify(cached_jwks));
+        console.log('formatted jwks', formattedKeys);
+    }
+    
 
     // if (!cached_jwks) {
     //     JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
