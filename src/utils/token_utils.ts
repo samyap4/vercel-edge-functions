@@ -34,20 +34,22 @@ export async function renewFGAJWT() {
 }
 
 export async function verifyJWT(jwt: string) {
-    //const JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+    let JWKS = null;
     const cached_jwks = await kv.get('jwks') as jose.JSONWebKeySet;
-    if (!cached_jwks) {
-        return false;
-    } else {
-        const JWKS = jose.createLocalJWKSet(cached_jwks);
 
-        const { payload } = await jose.jwtVerify(jwt, JWKS, {
-            issuer: 'https://auth.samyap.dev/',
-            audience: [
-                "http://localhost:8080",
-                "https://samyapkowitz.us.auth0.com/userinfo"
-            ],
-        });
-        return !!payload;
+    if (!cached_jwks) {
+        JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+    } else {
+        JWKS = jose.createLocalJWKSet(cached_jwks);
     }
+    
+    const { payload } = await jose.jwtVerify(jwt, JWKS, {
+        issuer: 'https://auth.samyap.dev/',
+        audience: [
+            "http://localhost:8080",
+            "https://samyapkowitz.us.auth0.com/userinfo"
+        ],
+    });
+    
+    return !!payload;
 }
