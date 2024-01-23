@@ -7,6 +7,11 @@ export function checkIsJwtExpired(jwt: string) {
     }
 }
 
+export function checkAudience(jwt: string, audience: string) {
+    const decoded = jose.decodeJwt(jwt);
+    return decoded.aud === audience;
+}
+
 export async function renewFGAJWT() {
     const res = await fetch(
         `https://fga.us.auth0.com/oauth/token`,
