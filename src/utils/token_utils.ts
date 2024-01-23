@@ -1,4 +1,5 @@
 import * as jose from 'jose'
+import { kv } from '@vercel/kv';
 
 export function checkIsJwtExpired(jwt: string) {
     const decoded = jose.decodeJwt(jwt);
@@ -33,15 +34,20 @@ export async function renewFGAJWT() {
 }
 
 export async function verifyJWT(jwt: string) {
-    const JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+    //const JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+    const cached_jwks = await kv.get('jwks') as jose.JSONWebKeySet;
+    if (!cached_jwks) {
+        return false;
+    } else {
+        const JWKS = jose.createLocalJWKSet(cached_jwks);
 
-    const { payload } = await jose.jwtVerify(jwt, JWKS, {
-        issuer: 'https://auth.samyap.dev/',
-        audience: [
-            "http://localhost:8080",
-            "https://samyapkowitz.us.auth0.com/userinfo"
-        ],
-    });
-
-    return !!payload;
+        const { payload } = await jose.jwtVerify(jwt, JWKS, {
+            issuer: 'https://auth.samyap.dev/',
+            audience: [
+                "http://localhost:8080",
+                "https://samyapkowitz.us.auth0.com/userinfo"
+            ],
+        });
+        return !!payload;
+    }
 }
