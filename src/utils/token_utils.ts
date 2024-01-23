@@ -29,7 +29,7 @@ export async function renewFGAJWT() {
 }
 
 export async function verifyJWT(jwt: string) {
-    let JWKS = null;
+    let JWKS;
     let cached_jwks = await kv.get('jwks');
     console.log('cached jwks', cached_jwks);
 

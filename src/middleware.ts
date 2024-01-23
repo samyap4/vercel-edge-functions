@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
             return NextResponse.next();
         }
     } catch (e) {
-        return NextResponse.json({ message: 'Authorization Required' }, { status: 401 })
+        return NextResponse.json({ message: e }, { status: 401 })
     }
    
     
