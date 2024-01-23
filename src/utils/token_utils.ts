@@ -7,9 +7,9 @@ export function checkIsJwtExpired(jwt: string) {
     }
 }
 
-export function checkAudience(jwt: string, audience: string) {
+export function checkIssuer(jwt: string, issuer: string) {
     const decoded = jose.decodeJwt(jwt);
-    return decoded.aud === audience;
+    return decoded.iss === issuer;
 }
 
 export async function renewFGAJWT() {
