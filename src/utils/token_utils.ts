@@ -8,11 +8,6 @@ export function checkIsJwtExpired(jwt: string) {
     }
 }
 
-export function checkIssuer(jwt: string, issuer: string) {
-    const decoded = jose.decodeJwt(jwt);
-    return decoded.iss === issuer;
-}
-
 export async function renewFGAJWT() {
     const res = await fetch(
         `https://fga.us.auth0.com/oauth/token`,
@@ -35,12 +30,14 @@ export async function renewFGAJWT() {
 
 export async function verifyJWT(jwt: string) {
     let JWKS = null;
-    const cached_jwks = await kv.get('jwks') as jose.JSONWebKeySet;
+    let cached_jwks = await kv.get('jwks');
+    console.log('cached jwks', cached_jwks);
 
     if (!cached_jwks) {
         JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
     } else {
-        JWKS = jose.createLocalJWKSet(cached_jwks);
+        let jwks = cached_jwks as jose.JSONWebKeySet;
+        JWKS = jose.createLocalJWKSet(jwks);
     }
     
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
@@ -50,6 +47,6 @@ export async function verifyJWT(jwt: string) {
             "https://samyapkowitz.us.auth0.com/userinfo"
         ],
     });
-    
+
     return !!payload;
 }
