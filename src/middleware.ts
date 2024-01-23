@@ -9,8 +9,8 @@ export const config = {
 export default async function middleware(req: NextRequest) {
     const headers = req.headers;
     const token = headers.get('Authorization')?.split(' ')[1];
-    // if (token && checkAudience(token, 'http://localhost:8080')) {
-    //     return NextResponse.next();
-    // }
+    if (token && checkAudience(token, 'http://localhost:8080')) {
+        return NextResponse.next();
+    }
     return NextResponse.json({ message: 'Auth required' }, { status: 401 })
 }
