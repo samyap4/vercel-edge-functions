@@ -31,3 +31,17 @@ export async function renewFGAJWT() {
     const data = await res.json();
     return data.access_token;
 }
+
+export async function verifyJWT(jwt: string) {
+    const JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+
+    const { payload } = await jose.jwtVerify(jwt, JWKS, {
+        issuer: 'https://auth.samyap.dev/',
+        audience: [
+            "http://localhost:8080",
+            "https://samyapkowitz.us.auth0.com/userinfo"
+        ],
+    });
+
+    return !!payload;
+}
