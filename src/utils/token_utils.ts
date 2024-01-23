@@ -7,8 +7,7 @@ export function checkIsJwtExpired(jwt: string) {
     }
 }
 
-export function renewFGAJWT(): string {
-    let access_token = '';
+export function renewFGAJWT(): any {
     fetch('https://fga.us.auth0.com/oauth/token', {
             method: 'POST',
             headers: {
@@ -24,10 +23,10 @@ export function renewFGAJWT(): string {
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            access_token = data.access_token.toString();
+            return data.access_token;
         })
     .catch((error) => {
             console.error(error);
+            return error;
     });
-    return access_token;
 }
