@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!api_token || checkIsJwtExpired(api_token)) {
         console.log('renewing tokens');
-        api_token = renewFGAJWT();
+        api_token = await renewFGAJWT();
         await kv.set('fga_token', api_token);
     }
 

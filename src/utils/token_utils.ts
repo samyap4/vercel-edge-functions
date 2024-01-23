@@ -7,8 +7,10 @@ export function checkIsJwtExpired(jwt: string) {
     }
 }
 
-export function renewFGAJWT(): any {
-    fetch('https://fga.us.auth0.com/oauth/token', {
+export async function renewFGAJWT() {
+    const res = await fetch(
+        `https://fga.us.auth0.com/oauth/token`,
+        {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -19,14 +21,8 @@ export function renewFGAJWT(): any {
                 audience: 'https://api.us1.fga.dev/', 
                 grant_type: 'client_credentials' 
             }),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            return data.access_token;
-        })
-    .catch((error) => {
-            console.error(error);
-            return error;
-    });
+        }
+    );
+    const data = await res.json();
+    return data.access_token;
 }
