@@ -29,16 +29,16 @@ export async function renewFGAJWT() {
 }
 
 export async function verifyJWT(jwt: string) {
-    let JWKS;
     let cached_jwks = await kv.get('jwks');
     console.log('cached jwks', cached_jwks);
 
-    if (!cached_jwks) {
-        JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
-    } else {
-        let jwks = cached_jwks as jose.JSONWebKeySet;
-        JWKS = jose.createLocalJWKSet(jwks);
-    }
+    // if (!cached_jwks) {
+    //     JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+    // } else {
+    //     let jwks = cached_jwks as jose.JSONWebKeySet;
+    //     JWKS = jose.createLocalJWKSet(jwks);
+    // }
+    const JWKS = jose.createLocalJWKSet(cached_jwks as jose.JSONWebKeySet);
     
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
         issuer: 'https://auth.samyap.dev/',
