@@ -22,11 +22,14 @@ interface Database {
 export default async (req: NextRequest) => {
   try {
     const { email, password, api_key } = await req.json();
-    // const cached_key = await kv.get('api_key');
+    const cached_key = await kv.get("api_key");
 
-    // if (cached_key !== api_key) {
-    //     return new NextResponse(null, { status: 400, statusText: 'API Key is invalid' });
-    // }
+    if (cached_key !== api_key) {
+      return new NextResponse(null, {
+        status: 400,
+        statusText: "API Key is invalid",
+      });
+    }
 
     const db = createKysely<Database>();
     const user = await db
