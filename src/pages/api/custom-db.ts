@@ -41,8 +41,8 @@ export default async (req: NextRequest) => {
     if (email === user?.email && password === user?.password) {
       return NextResponse.json({
         user_id: user?.user_id,
-        nickname: user?.email.includes("kelly")
-          ? "Kelly Clarkson"
+        nickname: user?.email.includes("rashmi")
+          ? "Rashmi Menon"
           : "Sam Yapkowitz",
         email: user?.email,
       });
