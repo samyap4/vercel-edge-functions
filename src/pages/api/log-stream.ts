@@ -1,10 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export const config = {
+    runtime: 'experimental-edge',
+    location: 'iad1'
+  };
+
+  export default (req: NextRequest) => {
 
     console.log('req: ', req);
 
-    return res.status(200).json({
+    return NextResponse.json({
         success: true
-    });
+      });
 };
