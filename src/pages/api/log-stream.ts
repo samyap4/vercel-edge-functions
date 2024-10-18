@@ -16,6 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log('DD-API-KEY', dd_api_key);
 
     return res.status(200).json({
-        success: dd_api_key || false;
+        success: dd_api_key;
     });
 };
