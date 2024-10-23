@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
 import { Generated } from "kysely";
 import { createKysely } from "@vercel/postgres-kysely";
+import crypto from "crypto"
 
 export const config = {
   runtime: "experimental-edge",
@@ -22,42 +23,43 @@ interface Database {
 export default async (req: NextRequest) => {
   try {
     const { email, password, api_key } = await req.json();
-    // const cached_key = await kv.get("api_key");
 
-    // if (cached_key !== api_key) {
+    // const db = createKysely<Database>();
+    // const user = await db
+    //   .selectFrom("users")
+    //   .selectAll()
+    //   .where("users.email", "=", email)
+    //   .executeTakeFirst();
+
+    // if (email === user?.email && password === user?.password) {
+    //   return NextResponse.json({
+    //     user_id: user?.user_id,
+    //     nickname: user?.email.includes("rashmi")
+    //       ? "Rashmi Menon"
+    //       : "Sam Yapkowitz",
+    //     email: user?.email,
+    //   });
+    // } else {
     //   return new NextResponse(null, {
     //     status: 400,
-    //     statusText: "API Key is invalid",
+    //     statusText: "User not found",
     //   });
     // }
 
-    const db = createKysely<Database>();
-    const user = await db
-      .selectFrom("users")
-      .selectAll()
-      .where("users.email", "=", email)
-      .executeTakeFirst();
-
-    if (email === user?.email && password === user?.password) {
+    if (email.split('@')[1] === 'customdb.com' && password === 'Auth0Dem0') {
       return NextResponse.json({
-        user_id: user?.user_id,
-        nickname: user?.email.includes("rashmi")
-          ? "Rashmi Menon"
-          : "Sam Yapkowitz",
-        email: user?.email,
+        user_id: crypto.randomUUID(),
+        nickname: email,
+        email: email
       });
     } else {
-      return new NextResponse(null, {
-        status: 400,
-        statusText: "User not found",
-      });
+         return new NextResponse(null, {
+          status: 400,
+          statusText: "User not found",
+        });
     }
 
-    // return NextResponse.json({
-    //             user_id: '4534854850934805',
-    //             nickname: 'Sam Yapkowitz',
-    //             email: 'sam@customdb.com'
-    // });
+   
   } catch (e) {
     console.log(e);
     return new NextResponse(null, { status: 400, statusText: e as string });
