@@ -2,19 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { NextApiRequest, NextApiResponse } from 'next';
 import crypto from "crypto"
 
-export default async (req: NextRequest) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { email, password, api_key } = req.body;
 
     if (email.split('@')[1] === 'customdb.com' && password === 'Auth0Dem0') {
-      return NextResponse.json({
+      return res.status(200).json({
         user_id: crypto.randomUUID(),
         nickname: email,
         email: email
       });
     } else {
-         return new NextResponse(null, {
-          status: 400,
+      return res.status(400).json({
           statusText: "User not found",
         });
     }
@@ -22,6 +21,8 @@ export default async (req: NextRequest) => {
    
   } catch (e) {
     console.log(e);
-    return new NextResponse(null, { status: 400, statusText: e as string });
+    return return res.status(500).json({
+      statusText: e,
+    });
   }
 };
