@@ -4,21 +4,21 @@ import { Generated } from "kysely";
 import { createKysely } from "@vercel/postgres-kysely";
 import crypto from "crypto"
 
-export const config = {
-  runtime: "experimental-edge",
-  location: "iad1",
-};
+// export const config = {
+//   runtime: "experimental-edge",
+//   location: "iad1",
+// };
 
-interface UsersTable {
-  user_id: Generated<number>;
-  email: string;
-  username: string;
-  password: string;
-}
+// interface UsersTable {
+//   user_id: Generated<number>;
+//   email: string;
+//   username: string;
+//   password: string;
+// }
 
-interface Database {
-  users: UsersTable;
-}
+// interface Database {
+//   users: UsersTable;
+// }
 
 export default async (req: NextRequest) => {
   try {
