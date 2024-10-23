@@ -48,7 +48,7 @@ export default async (req: NextApiRequest) => {
     // }
 
     if (email.split('@')[1] === 'customdb.com' && password === 'Auth0Dem0') {
-      return new NextResponse.json({
+      return NextResponse.json({
         user_id: crypto.randomUUID(),
         nickname: email,
         email: email
