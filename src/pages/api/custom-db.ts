@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from 'next';
 import { kv } from "@vercel/kv";
 import { Generated } from "kysely";
 import { createKysely } from "@vercel/postgres-kysely";
@@ -20,9 +21,9 @@ import crypto from "crypto"
 //   users: UsersTable;
 // }
 
-export default async (req: NextRequest) => {
+export default async (req: NextApiRequest) => {
   try {
-    const { email, password, api_key } = await req.json();
+    const { email, password, api_key } = req.body;
 
     // const db = createKysely<Database>();
     // const user = await db
@@ -47,7 +48,7 @@ export default async (req: NextRequest) => {
     // }
 
     if (email.split('@')[1] === 'customdb.com' && password === 'Auth0Dem0') {
-      return NextResponse.json({
+      return new NextResponse.json({
         user_id: crypto.randomUUID(),
         nickname: email,
         email: email
