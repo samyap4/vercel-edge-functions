@@ -9,7 +9,7 @@ interface Message {
     timestamp?: string
 }
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { recipient, sender, body } = req.body()
 
