@@ -22,7 +22,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     await addMessage(body as Message)
 
     // Return success response with the stored message
-    return res.json({
+    return res.status(200).json({
         success: true,
         message: body,
       })
@@ -41,7 +41,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     console.log(`Retrieved ${messages.length} messages from KV store`)
 
     // Return with CORS headers
-    return res.json(messages)
+    return res.status(200).json(messages)
   } catch (error) {
     console.error("Error retrieving messages:", error)
     return res.status(500).json({ error: "Failed to retrieve messages" })
