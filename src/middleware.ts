@@ -6,5 +6,6 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest, res: NextResponse) {
+    res = NextResponse.next();
     return cors(req, res);
 }
