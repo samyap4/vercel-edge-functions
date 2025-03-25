@@ -11,7 +11,7 @@ interface Message {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { recipient, sender, body } = req.body()
+    const { recipient, sender, body } = req.body
 
     // Validate the incoming data
     if (recipient || sender || body) {
