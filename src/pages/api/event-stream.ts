@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log('Webhook received:', JSON.stringify(req.body, null, 2));
 
     // Respond to the webhook sender
-    res.status(204); // No Content
+    return res.status(204); // No Content
   } catch (error) {
     console.error("Error processing message:", error)
     return res.status(500).json({ error: "Failed to process message" })
