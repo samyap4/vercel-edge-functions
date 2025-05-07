@@ -47,7 +47,9 @@ export default async function handler(
     console.log(`Successfully deleted all sessions for user ${userId}`);
 
     const updatedAppMetadata = { // Use our custom type
-      active_devices: [],
+      app_metadata: {
+        active_devices: [],
+      }
     };
 
     await auth0Management.users.update({ id: userId }, updatedAppMetadata);
