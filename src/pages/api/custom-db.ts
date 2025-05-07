@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       return res.status(400).json({
           statusText: "User not found",
-        });
+      });
     }
 
    
