@@ -5,7 +5,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { email, password } = req.body;
 
-    if (email.split('@')[1] === 'customdb.com' && password === 'Auth0Dem0') {
+    if (email.split('@')[1] === 'customdb.com' && (password === 'Auth0Dem0' || password === 'Auth0Dem0!')) {
       return res.status(200).json({
         user_id: crypto.randomUUID(),
         nickname: email,
